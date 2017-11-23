@@ -16,6 +16,13 @@ angular.module('myApp', ['createEchart'])
             series: ['load.1m', 'load.5m', 'load.15m'],
             areaStyle: {},
         };
+        var pieOptions = {
+            legend: ['total'],
+            series: ['cluster.pg.nums'],
+            optional_meters: ['cluster.pg.active+clean'],
+            optional_legend: ['active+clean'],
+            areaStyle: {}
+        }
 
 
         // create dash chart
@@ -26,8 +33,19 @@ angular.module('myApp', ['createEchart'])
             "func": "last",
             "auto_unit": true
         }).then(function (data) {
-            $scope.dashChartData = CreateEchartOption.dashChartCreateOptions(dashOptions,data)
+            $scope.dashChartData = CreateEchartOption.dashChartCreateOptions(dashOptions, data)
         });
+
+        // create pie chart
+        MonitorHttpService.post('http://localhost:8001/api/monitor-alarm/monitor/cluster-pg-nums', {
+            "meters": ["cluster.pg.active+clean", "cluster.pg.nums"],
+            "tag": "cluster",
+            "monitor_type": "ceph",
+            "func": "last",
+            "auto_unit": false
+        }).then(function (data) {
+            $scope.pieChartData = CreateEchartOption.pieChartCreateOptions(pieOptions, data)
+        })
 
         //create twoline chart
         MonitorHttpService.post('http://localhost:8001/api/monitor-alarm/monitor/cluster-io/', {

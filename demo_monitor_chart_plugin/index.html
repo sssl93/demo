@@ -6,15 +6,16 @@
     <script src="js/angular.min.js" type="text/javascript"></script>
     <script src="js/echarts.js" type="text/javascript"></script>
     <script src="js/angular-create-echart.js" type="text/javascript"></script>
-    <script src="js/app.js" type="text/javascript"></script>
+    <script src="app.js" type="text/javascript"></script>
 </head>
 <body>
 
 
 <div ng-controller="myCtrl">
-    <div dash-Chart options="dashChartData" style="height: 200px; width: 100%;"></div>
-    <div twoline-Chart options="twoLineData" style="height: 200px; width: 100%;"></div>
-    <div line-Chart options="lineData" style="height: 200px; width: 100%;"></div>
+    <div dash-chart options="dashChartData" style="height: 200px; width: 100%;"></div>
+    <div pie-chart options="pieChartData" style="height: 200px; width: 100%;"></div>
+    <div twoline-chart options="twoLineData" style="height: 200px; width: 100%;"></div>
+    <div line-chart options="lineData" style="height: 200px; width: 100%;"></div>
 </div>
 
 </body>

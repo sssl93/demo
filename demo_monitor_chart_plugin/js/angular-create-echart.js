@@ -552,30 +552,34 @@
         var pieChartCreateOptions = function (option, items, title) {
             /***
              * @option eg. {
-                legend: ['cluster.pg.total.nums', ],
-                optional_meters: ['cluster.pg.active+clean','cluster.pg.dirty']
-            }
+                    legend: ['total'],
+                    series: ['cluster.pg.nums'],
+                    optional_meters: ['cluster.pg.active+clean'],
+                    optional_legend: ['active+clean'],
+                    areaStyle: {}
+                }
              */
             var newOpt = {};
             var i, key;
-            newOpt['legend'] = option['legend'];
+            var totalLegend = option['legend'] || option['series']
+            var optionalLegend = option['optional_legend'] || option['optional_meters'];
+            newOpt['legend'] = totalLegend.concat(optionalLegend);
             newOpt['totalSeriesData'] = [];
             newOpt['pgSeriesData'] = [];
 
-            for (i in option.legend) {
-                key = option.legend[i];
+            for (i in option.series) {
+                key = option.series[i];
                 newOpt['totalSeriesData'].push({
                     value: items[0][key],
-                    name: key
+                    name: totalLegend[i]
                 });
             }
             for (i in option.optional_meters) {
                 key = option.optional_meters[i];
                 if (items[0][key]) {
-                    newOpt['legend'].push(key);
                     newOpt['pgSeriesData'].push({
                         value: items[0][key],
-                        name: key
+                        name: optionalLegend[i]
                     });
                 }
 
