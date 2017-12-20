@@ -2,6 +2,7 @@
 # coding:utf-8
 import rsa
 import base64
+from license.utils.decorator_utils import singleton
 
 PRIVATE_KEY = '''
     -----BEGIN RSA PRIVATE KEY-----
@@ -24,12 +25,24 @@ PUBKEY = '''
 TOKEN = 'fsabe3minbkpxjiu'
 
 
+@singleton
 class SignatureUtils(object):
     def __init__(self):
-        # TODO design readonly
-        self.private_key = rsa.PrivateKey.load_pkcs1(PRIVATE_KEY)
-        self.pubkey = rsa.PublicKey.load_pkcs1(PUBKEY)
-        self.token = TOKEN
+        self.__private_key = rsa.PrivateKey.load_pkcs1(PRIVATE_KEY)
+        self.__pubkey = rsa.PublicKey.load_pkcs1(PUBKEY)
+        self.__token = TOKEN
+
+    @property
+    def private_key(self):
+        return self.__private_key
+
+    @property
+    def pubkey(self):
+        return self.__pubkey
+
+    @property
+    def token(self):
+        return self.__token
 
     def generate_sign_string(self, message, hash_type):
         signature = rsa.sign(self.token + message, self.private_key, hash_type)
