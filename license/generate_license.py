@@ -39,11 +39,16 @@ class LicenseBase(object):
         return signature_instance.verify(message=message, signature=signature)
 
     def generate_license_file(self):
+        # TODO 生成新的license 此处 status字段固定为 uninstalled（未安装）每个license只能用一次（在安装部署的时候去检查该license是否有效）
         items = self._get_items(self.license_info)
         with open(self.file_path, 'wb+') as f:
             for item in items:
                 f.writelines(item + '\n')
         return True
+
+    def update_license_file(self):
+        # TODO 更新license 此处 status字段为只读且为 installed（已安装）
+        pass
 
     def load_license_file(self):
         message = self._load_file()
